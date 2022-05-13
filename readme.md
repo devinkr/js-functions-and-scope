@@ -31,7 +31,7 @@ too.
 
 Let's create an environment to learn about JS Functions. 
 
-1. In your lessons or lectures folder, create an `index.html` and `functions-basics.js`.
+1. In your lessons or lectures folder create a folder called js-function-and-scope, and inside your js-functions-and-scope folder create an `index.html` and `functions-basics.js`.
 1. Add some boilerplate to your HTML file and connect your JS file to your HTML.
 1. `console.log` something from your JS file so that you know it's connected.
 
@@ -41,14 +41,6 @@ Let's create an environment to learn about JS Functions.
 
 - Fundamental component of JavaScript
 - A reusable block of JavaScript code used to perform a task
-
-**Why do we use functions?**
-
-Benefits of functions:
-
-- Reusability
-- DRYness
-- Code Clarity
 
 ### Recognize the Parts of a Function
 
@@ -134,14 +126,22 @@ exponentiate(4)
 > Optional parameters are very useful when writing **recursive** functions as
 > they allow values to more easily be passed through multiple function calls
 
+**Why do we use functions?**
+
+Benefits of functions:
+
+- Reusability
+- DRYness
+- Code Clarity
+
 ### Calling vs Referencing a Function
 
 Let's say we've defined a function.
 
 ```js
 // define a function
-function multiple(num1 = 1, num2 = 1) {
-  return num1 * num2;
+function multiply(num1 = 1, num2 = 1) {
+  console.log(num1 * num2);
 }
 ```
 
@@ -182,18 +182,18 @@ TLDR -- Output: What the function evaluates to - noted by keyword `return`.
 > If a function returns a value, you can store that value in a variable.
 
 ```js
-function multiply(num1, num2) {
+function multiplyAndReturn(num1, num2) {
   return num1 * num2; // Output
 }
 
-const result = multiply(6, 5);
+const result = multiplyAndReturn(6, 5);
 console.log(result); // What is output?
 ```
 
 ```js
 let num2 = 5;
 
-function multiply(num1) {
+function multiplyWithSideEffect(num1) {
   num2 = num1 * num2; // no output here, just a side effect
 }
 ```
@@ -254,7 +254,7 @@ it in a variable, then `console.log` the variable:**
    function is called without passing any numbers in, the result should be 10.
 1. Take a number and add some amount of zeroes to the end, returning it (make
    sure you return a number, not a string)
-1. Return a function that console logs 'hello world' (yes you can write
+1. (Bonus!) Return a function that console logs 'hello world' (yes you can write
    functions inside functions!)
 
 Return vs side effects:
@@ -374,47 +374,15 @@ function declare() {
 You can read more about hoisting
 [here](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting)
 
-### ES6 Features
-
 #### Arrow Functions
 
 Following the release of ECMAScript 6 (ES6) in 2015, anonymous functions can be
-written as "arrow functions", a syntax adapted from CoffeeScript.
+written as "arrow functions". We will introduce the arrow function syntax at the start of Unit 2!
 
-```js
-const square = function (num1) {
-  // function expression
-  return num1 * num1;
-};
 ```
-
-What does this look like in ES6?
-
-```js
-// 1. drop the function keyword
-// 2. add a fat arrow between the parentheses and opening curly brace
-
 const square = (num1) => {
   return num1 * num1;
 };
-```
-
-Arrow functions with a "concise" function body (no brackets and on one line)
-have "implicit return". This means you can leave out the `return` keyword and it
-still returns.
-
-```js
-// 3. if the function only returns one value, drop the curly braces and return keyword
-
-const square = (num1) => num1 * num1;
-```
-
-And lastly, to simplify it further..
-
-```js
-// 4. if the function only takes one parameter, drop the parentheses
-
-const square = (num1) => num1 * num1;
 ```
 
 ## Scope
@@ -427,14 +395,14 @@ standing.
 In **JavaScript** scope is where a variable can be referenced/used (i.e., all
 variables that can be accessed from a given line of code).
 
-#### Quick Example
+#### Some Examples
 
 Here's a code snippet that demonstrates some of JavaScript's fundamental rules
 of scope...
 
 ```js
 if (true) {
-  var color = "purple";
+  let color = "purple";
 }
 
 console.log(color); // What should we see in the console?
@@ -459,7 +427,7 @@ getColor();
 console.log(color); // What should we see in the console?
 ```
 
-Let's see what happens if we add the `const` keyword...
+Let's see what happens if we use the `const` keyword...
 
 ```js
 function getAnotherColor() {
@@ -472,8 +440,8 @@ console.log(anotherColor); // What should we see in the console?
 
 #### Rules of Scope in JS
 
-In JavaScript, there are two types of scope: **global scope** and **local
-scope**.
+In JavaScript, there are three types of scope: **global scope**, **local
+scope** and **block scope**.
 
 There are five rules to remember about scope in JS...
 
@@ -483,11 +451,7 @@ There are five rules to remember about scope in JS...
    in the current local scope.
 3. All functions create a new local scope.
 4. The current scope includes all outer (enclosing) scopes.
-5. Variables created with `let` or `const` keywords have **block** scope.
-
-> One consequence of rule 3 is that variables defined outside of any function
-> are inherently global if the `var` keyword is used (`let` and `const` prevent
-> pollution of the global scope).
+5. Variables created with `let` or `const` keywords have **block** scope. A block is signified by opening and closing curly brackets. For example, in a if statement or for loop. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block
 
 Another way to say this...
 
@@ -499,6 +463,28 @@ Another way to say this...
 
 > In other words, you can reach out of your current scope into an outside scope,
 > but you cannot reach into an inside scope.
+
+
+#### Var does not have block scope!
+
+```js
+if (true) {
+  let color = "purple";
+}
+
+console.log(color); // What should we see in the console?
+```
+
+```js
+if (true) {
+  var color = "purple";
+}
+
+console.log(color); // What should we see in the console?
+```
+
+In the second example, color is still accessible because blocks do not effect scope for variables defined using `var`. This is one of the main reasons we do not use var anymore!
+
 
 ### Closures
 
@@ -530,7 +516,7 @@ Let's walk through this example in two steps:
 
 ```js
 teamName = "Giraffes"; // What scope is this?
-var teamCity = "Sioux Falls"; // What scope is this?
+let teamCity = "Sioux Falls"; // What scope is this?
 const teamColors = "Brown and Yellow"; // What scope is this?
 
 function playBaseball() {
@@ -558,11 +544,11 @@ console.log(pitcherName); // Does this work?
 <details>
   <summary><strong>List of scopes for this example...</strong></summary>
 
-> `teamName` - global (no var)  
-> `teamCity` - global (`var` not in a function)  
-> `teamColors` - global (`const` unenclosed in a code block) `pitcherName` -
-> block (no because const has block scope)  
-> `batterName` - local to `playBaseball` function
+> `teamName` - global (no `let` `var` or `const)  
+> `teamCity` - global (`let` unenclosed in a code block)  
+> `teamColors` - global (`const` unenclosed in a code block) 
+> `pitcherName` - block (because const has block scope)  
+> `batterName` - local scope to `playBaseball` function
 
 </details>
 
